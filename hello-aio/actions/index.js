@@ -54,6 +54,11 @@ export async function handleRequest(request) {
         // Call the main function
         var response = main(params) || {};
 
+        // Support sync/async
+        if (response instanceof Promise) {
+            response = await response;
+        }
+
         // Determine the response payload
         const payload = response.payload || response.body || '';
 
