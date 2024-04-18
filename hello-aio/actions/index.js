@@ -2,6 +2,7 @@
 
 // TODO: we can replace this with webpack at build time to 
 //       build different components for different actions
+// import { main } from "./smoke";
 import { main } from "./hello";
 
 // This is Spin code to seemlessly handle OpenWhisk apps written for Node.js
