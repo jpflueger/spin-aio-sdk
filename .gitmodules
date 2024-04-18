@@ -1,0 +1,12 @@
+[submodule "projects/OpenWhisk-to-Spin"]
+	path = projects/OpenWhisk-to-Spin
+	url = https://github.com/chrismatteson/OpenWhisk-to-Spin
+[submodule "projects/adobeio-samples-typescript"]
+	path = projects/adobeio-samples-typescript
+	url = https://github.com/chrismatteson/adobeio-samples-typescript
+[submodule "projects/commerce-cif-graphql-integration-reference"]
+	path = projects/commerce-cif-graphql-integration-reference
+	url = https://github.com/chrismatteson/commerce-cif-graphql-integration-reference
+[submodule "projects/adobeio-samples-barcode-generator"]
+	path = projects/adobeio-samples-barcode-generator
+	url = https://github.com/AdobeDocs/adobeio-samples-barcode-generator
