@@ -1,0 +1,18 @@
+spin_manifest_version = 2
+
+[application]
+authors = ["Justin Pflueger <justin.pflueger@fermyon.com>"]
+description = ""
+name = "hello-aio"
+version = "0.1.0"
+
+[[trigger.http]]
+route = "/..."
+component = "hello-aio"
+
+[component.hello-aio]
+source = "target/hello-aio.wasm"
+exclude_files = ["**/node_modules"]
+[component.hello-aio.build]
+command = "npm run build"
+watch = ["actions/**/*.js", "package.json"]
