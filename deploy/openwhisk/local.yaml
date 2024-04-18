@@ -1,0 +1,26 @@
+whisk:
+  ingress:
+    type: NodePort
+    # this should be replaced by the justfile
+    apiHostName: localhost
+    apiHostPort: 31001
+
+nginx:
+  httpsNodePort: 31001
+
+# Lean controller so we don't need Kafka, Zookeeper or Invokers
+controller:
+  lean: true
+
+# A single node cluster; so disable affinity
+affinity:
+  enabled: false
+toleration:
+  enabled: false
+invoker:
+  options: "-Dwhisk.kubernetes.user-pod-node-affinity.enabled=false"
+
+# Disable persistence for local development
+k8s:
+  persistence:
+    enabled: false
