@@ -22,13 +22,13 @@
  * @returns {string}
  *
  */
-function stringParameters (params) {
+export function stringParameters(params) {
   // hide authorization token without overriding params
-  let headers = params.__ow_headers || {}
+  let headers = params.__ow_headers || {};
   if (headers.authorization) {
-    headers = { ...headers, authorization: '<hidden>' }
+    headers = { ...headers, authorization: "<hidden>" };
   }
-  return JSON.stringify({ ...params, __ow_headers: headers })
+  return JSON.stringify({ ...params, __ow_headers: headers });
 }
 
 /**
@@ -42,13 +42,16 @@ function stringParameters (params) {
  * @returns {array}
  * @private
  */
-function getMissingKeys (obj, required) {
-  return required.filter(r => {
-    const splits = r.split('.')
-    const last = splits[splits.length - 1]
-    const traverse = splits.slice(0, -1).reduce((tObj, split) => { tObj = (tObj[split] || {}); return tObj }, obj)
-    return !traverse[last]
-  })
+export function getMissingKeys(obj, required) {
+  return required.filter((r) => {
+    const splits = r.split(".");
+    const last = splits[splits.length - 1];
+    const traverse = splits.slice(0, -1).reduce((tObj, split) => {
+      tObj = tObj[split] || {};
+      return tObj;
+    }, obj);
+    return !traverse[last];
+  });
 }
 
 /**
@@ -63,29 +66,36 @@ function getMissingKeys (obj, required) {
  * @returns {string} if the return value is not null, then it holds an error message describing the missing inputs.
  *
  */
-function checkMissingRequestInputs (params, requiredParams = [], requiredHeaders = []) {
-  let errorMessage = null
+export function checkMissingRequestInputs(
+  params,
+  requiredParams = [],
+  requiredHeaders = [],
+) {
+  let errorMessage = null;
 
   // input headers are always lowercase
-  requiredHeaders = requiredHeaders.map(h => h.toLowerCase())
+  requiredHeaders = requiredHeaders.map((h) => h.toLowerCase());
   // check for missing headers
-  const missingHeaders = getMissingKeys(params.__ow_headers || {}, requiredHeaders)
+  const missingHeaders = getMissingKeys(
+    params.__ow_headers || {},
+    requiredHeaders,
+  );
   if (missingHeaders.length > 0) {
-    errorMessage = `missing header(s) '${missingHeaders}'`
+    errorMessage = `missing header(s) '${missingHeaders}'`;
   }
 
   // check for missing parameters
-  const missingParams = getMissingKeys(params, requiredParams)
+  const missingParams = getMissingKeys(params, requiredParams);
   if (missingParams.length > 0) {
     if (errorMessage) {
-      errorMessage += ' and '
+      errorMessage += " and ";
     } else {
-      errorMessage = ''
+      errorMessage = "";
     }
-    errorMessage += `missing parameter(s) '${missingParams}'`
+    errorMessage += `missing parameter(s) '${missingParams}'`;
   }
 
-  return errorMessage
+  return errorMessage;
 }
 
 /**
@@ -97,14 +107,17 @@ function checkMissingRequestInputs (params, requiredParams = [], requiredHeaders
  * @returns {string|undefined} the token string or undefined if not set in request headers.
  *
  */
-function getBearerToken (params) {
-  if (params.__ow_headers &&
-      params.__ow_headers.authorization &&
-      params.__ow_headers.authorization.startsWith('Bearer ')) {
-    return params.__ow_headers.authorization.substring('Bearer '.length)
+export function getBearerToken(params) {
+  if (
+    params.__ow_headers &&
+    params.__ow_headers.authorization &&
+    params.__ow_headers.authorization.startsWith("Bearer ")
+  ) {
+    return params.__ow_headers.authorization.substring("Bearer ".length);
   }
-  return undefined
+  return undefined;
 }
+
 /**
  *
  * Returns an error response object and attempts to log.info the status code and error message
@@ -119,23 +132,16 @@ function getBearerToken (params) {
  * @returns {object} the error object, ready to be returned from the action main's function.
  *
  */
-function errorResponse (statusCode, message, logger) {
-  if (logger && typeof logger.info === 'function') {
-    logger.info(`${statusCode}: ${message}`)
+export function errorResponse(statusCode, message, logger) {
+  if (logger && typeof logger.info === "function") {
+    logger.info(`${statusCode}: ${message}`);
   }
   return {
     error: {
       statusCode,
       body: {
-        error: message
-      }
-    }
-  }
-}
-
-module.exports = {
-  errorResponse,
-  getBearerToken,
-  stringParameters,
-  checkMissingRequestInputs
+        error: message,
+      },
+    },
+  };
 }
